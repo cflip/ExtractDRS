@@ -24,7 +24,11 @@
  */
 void GenCreateDirectory(const std::string &name)
 {
+#ifdef _WIN32
+	mkdir(name.c_str());
+#else
 	mkdir(name.c_str(), 0755);
+#endif
 }
 
 /**

@@ -1,4 +1,5 @@
 extractdrs
+extractdrs.exe
 obj/*
 data/*
 extracted/*
