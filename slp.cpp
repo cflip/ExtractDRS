@@ -54,7 +54,7 @@ inline uint32_t Get4BitsAndNext(uint8_t byte1, uint8_t byte2)
 
 inline uint32_t GetTopNibbleOrNext(uint8_t byte, BinaryFileReader& bfr)
 {
-	uint length = (byte & 0xF0) >> 4;
+	uint32_t length = (byte & 0xF0) >> 4;
 	if (length == 0) length = bfr.ReadNum<uint8_t>();
 	return length;
 }
@@ -70,12 +70,12 @@ std::vector<uint8_t> SLPFile::ReadRowData(BinaryFileReader &bfr, uint32_t width,
 	SLPCmd command = SLPCmd::END_ROW;
 	uint8_t curr_byte = 0;
 
-	uint cur_pixel_pos = left;
+	unsigned int cur_pixel_pos = left;
 	do {
 		/* Used for render hints from extended commands
 		 * Note: Out of sync for the first byte, but irrelevant */
 //		uint8 prev_byte = curr_byte;
-		uint length = 0;
+		unsigned int length = 0;
 
 		curr_byte = bfr.ReadNum<uint8_t>();
 		command = GetCommand(curr_byte);
@@ -150,7 +150,7 @@ std::vector<uint8_t> SLPFile::ReadRowData(BinaryFileReader &bfr, uint32_t width,
 			case SLPCmd::SHADOW:
 				length = GetTopNibbleOrNext(curr_byte, bfr);
 
-				for (uint it = 0; it < length; it++) {
+				for (unsigned int it = 0; it < length; it++) {
 					pixels.at(cur_pixel_pos++) = 56;
 				}
 				break;
